@@ -35,7 +35,7 @@ export default function Hero() {
         </div>
         
         {/* Mobile Description - At bottom */}
-        <div className="absolute bottom-32 left-8 right-8">
+        <div className="absolute bottom-0 left-8 right-8">
           <p className="text-gray-900 font-manrope text-lg font-light max-w-2xl">
             At Motion Studio, we craft visually stunning and highly engaging websites that blend creativity with modern technology. Our focus is on delivering smooth animations, clean design, and aesthetic user experiences that help brands stand out.
           </p>
