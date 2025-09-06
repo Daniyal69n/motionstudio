@@ -1,20 +1,33 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
 
-export default function SelectedWorks() {
-  const selectedTextRef = useRef(null);
-  const workTextRef = useRef(null);
+export default function AllWorks() {
+  const allTextRef = useRef(null);
+  const worksTextRef = useRef(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
   
   useEffect(() => {
     // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger);
     
-    // Create animation for "SELECTED" text coming from left
-    gsap.fromTo(selectedTextRef.current, 
+    // Add scroll event listener for Back to Top button
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+    
+    // Create animation for "ALL" text coming from left
+    gsap.fromTo(allTextRef.current, 
       {
         x: -200,
         opacity: 0
@@ -23,7 +36,7 @@ export default function SelectedWorks() {
         x: 0,
         opacity: 1,
         scrollTrigger: {
-          trigger: selectedTextRef.current,
+          trigger: allTextRef.current,
           start: "top 80%",
           end: "top 30%",
           scrub: 1
@@ -31,8 +44,8 @@ export default function SelectedWorks() {
       }
     );
     
-    // Create animation for "WORK" text coming from right
-    gsap.fromTo(workTextRef.current,
+    // Create animation for "WORKS" text coming from right
+    gsap.fromTo(worksTextRef.current,
       {
         x: 200,
         opacity: 0
@@ -41,7 +54,7 @@ export default function SelectedWorks() {
         x: 0,
         opacity: 1,
         scrollTrigger: {
-          trigger: workTextRef.current,
+          trigger: worksTextRef.current,
           start: "top 80%",
           end: "top 30%",
           scrub: 1
@@ -87,6 +100,46 @@ export default function SelectedWorks() {
       image: "/our-works/mockup4.webp",
       category: "business",
       link: "https://clarygen.com/"
+    },
+    {
+      id: 5,
+      title: "Muslim Counsellor",
+      subtitle: "Faith-Informed Therapy",
+      image: "/our-works/mockup5.webp",
+      category: "healthcare",
+      link: "https://www.themuslimcounsellor.com/"
+    },
+    {
+      id: 6,
+      title: "SIBBS Holdings",
+      subtitle: "Property Management",
+      image: "/our-works/mockup6.webp",
+      category: "real-estate",
+      link: "https://sibbsholdings.com/"
+    },
+    {
+      id: 7,
+      title: "West Asia Watch",
+      subtitle: "Digital Media Platform",
+      image: "/our-works/mockup7.webp",
+      category: "news",
+      link: "https://westasiawatch.com/"
+    },
+    {
+      id: 8,
+      title: "Hope Springs",
+      subtitle: "Healthcare Services",
+      image: "/our-works/mockup8.webp",
+      category: "healthcare",
+      link: "https://hopespringshealthcare.co.uk/"
+    },
+    {
+      id: 9,
+      title: "Veritas Analytica",
+      subtitle: "Data-Driven AI Solutions",
+      image: "/our-works/mockup9.webp",
+      category: "technology",
+      link: "https://veritas-analytica.vercel.app/"
     }
   ];
 
@@ -94,34 +147,63 @@ export default function SelectedWorks() {
     window.open(link, '_blank', 'noopener,noreferrer');
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
-    <section className="selected-works bg-black text-white min-h-screen py-20 mx-8 mb-8 rounded-3xl">
-      <div className="max-w-7xl mx-auto px-8">
+    <section className="all-works bg-black text-white min-h-screen py-20 px-8 relative">
+      <div className="max-w-7xl mx-auto">
+        {/* Back to Top Button */}
+        {showBackToTop && (
+          <button 
+            onClick={scrollToTop}
+            className="fixed top-8 left-8 z-50 bg-white/10 backdrop-blur-md text-white rounded-full p-3 hover:bg-white/20 transition-all duration-300 border border-white/20"
+            aria-label="Back to top"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+            </svg>
+          </button>
+        )}
+        
         {/* Header */}
         <div className="flex flex-col lg:flex-row justify-between items-start mb-16 gap-8">
           <h2 className="text-white text-6xl md:text-8xl lg:text-9xl font-bold leading-none">
-            <span ref={selectedTextRef} className="block">SELECTED</span>
-            <span ref={workTextRef} className="block">WORK</span>
+            <span ref={allTextRef} className="block">ALL</span>
+            <span ref={worksTextRef} className="block">WORKS</span>
           </h2>
           <div className="max-w-md">
             <p className="text-white text-sm font-light uppercase tracking-wide">
-              IMPACTFUL SOLUTIONS THAT<br />
-              STAND OUT,<br />
-              CAPTURE ATTENTION,<br />
-              AND DRIVE MEASURABLE SUCCESS
+              EXPLORE OUR COMPLETE<br />
+              PORTFOLIO OF PROJECTS<br />
+              THAT SHOWCASE OUR<br />
+              EXPERTISE AND CREATIVITY
             </p>
           </div>
         </div>
 
-        {/* Latest Work Label */}
-        <div className="mb-8">
+        {/* Back to Home Button */}
+        <div className="mb-8 flex justify-between items-center">
           <p className="text-white text-sm uppercase tracking-wider">
-            LATEST WORK
+            ALL PROJECTS
           </p>
+          <Link 
+            href="/" 
+            className="text-white border border-white/30 rounded-full px-6 py-2 text-sm hover:bg-white/10 transition-colors duration-300 flex items-center gap-2"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Home
+          </Link>
         </div>
 
         {/* Work Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
           {works.map((work) => (
             <div
               key={work.id}
@@ -147,7 +229,7 @@ export default function SelectedWorks() {
                   </svg>
                 </div>
 
-                {/* Visit Site Capsule - Hover Effect (positioned lower) */}
+                {/* Visit Site Capsule - Hover Effect */}
                 <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 translate-y-16 group-hover:translate-y-0 transition-transform duration-300 ease-out">
                   <div className="bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/20">
                     <span className="text-white text-sm font-medium">
@@ -165,7 +247,7 @@ export default function SelectedWorks() {
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                     <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
                     <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
-                    {work.id === 4 && (
+                    {work.id >= 4 && (
                       <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
                     )}
                   </div>
@@ -191,16 +273,6 @@ export default function SelectedWorks() {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* View All Works Button */}
-        <div className="flex justify-center mt-16">
-          <Link 
-            href="/all-works" 
-            className="bg-white text-black rounded-full h-[50px] px-8 flex items-center justify-center font-medium hover:bg-gray-200 transition-colors duration-300"
-          >
-            View All Works
-          </Link>
         </div>
       </div>
     </section>

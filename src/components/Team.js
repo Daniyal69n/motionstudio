@@ -107,13 +107,13 @@ export default function Team() {
           <div className="group">
             <div className="w-full h-96 bg-gray-300 rounded-2xl mb-4 overflow-hidden">
               <img 
-                src="/teams/saif.jpeg" 
+                src="/teams/umair.png" 
                 alt="saif"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
             </div>
             <h4 className="font-manrope text-xl font-semibold mb-2" style={{ color: '#222725' }}>
-              Saif
+              Muhammad Umair
             </h4>
           </div>
         </div>

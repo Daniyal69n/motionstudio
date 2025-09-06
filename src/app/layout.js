@@ -1,7 +1,7 @@
 import "./globals.css";
 import Navbar from "../components/navbar.js";
 import { Manrope, Anton } from "next/font/google";
-import Footer from "../components/footer.js";
+// Footer removed to only display on page.js
 import SmoothScroll from "../components/SmoothScroll.js";
 
 const manrope = Manrope({
@@ -89,7 +89,6 @@ export default function RootLayout({ children }) {
         <SmoothScroll>
           <Navbar />
           {children}
-          <Footer />
         </SmoothScroll>
       </body>
     </html>
